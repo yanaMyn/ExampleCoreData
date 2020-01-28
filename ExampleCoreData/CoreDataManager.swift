@@ -9,7 +9,15 @@
 import Foundation
 import CoreData
 
-public class CoreDatamanager {
+protocol Persistent {
+    var persistentContainer: NSPersistentContainer { get set }
+    
+    func save()
+    func fetch<T: NSManagedObject>(objectType: T.Type) -> [T]
+    func delete(object: NSManagedObject)
+}
+
+public class CoreDatamanager: Persistent {
     
     static var shared = CoreDatamanager()
     lazy var context = persistentContainer.viewContext
